@@ -51,6 +51,8 @@ class RawNewsItem(BaseModel):
     content: str
     url: str
     published_at: str
+    author: Optional[str] = None
+    summary: Optional[str] = None
 
 
 class UserSubscription(BaseModel):
@@ -61,6 +63,31 @@ class UserSubscription(BaseModel):
     keywords: List[str] = Field(default_factory=list)
     impact_threshold: int = Field(default=70, ge=0, le=100)
     alert_channels: List[str] = Field(default=["terminal"])
+    created_at: Optional[float] = None
+    updated_at: Optional[float] = None
+
+
+class UserSubscriptionCreate(BaseModel):
+    user_id: str = Field(..., description="Unique user identifier")
+    nitter_accounts: List[str] = Field(default_factory=list, description="List of Nitter accounts to follow (with @)")
+    rss_feeds: List[str] = Field(default_factory=list, description="List of RSS feed sources")
+    categories: List[str] = Field(default_factory=list, description="List of categories to filter")
+    keywords: List[str] = Field(default_factory=list, description="List of keywords to track")
+    impact_threshold: int = Field(default=70, ge=0, le=100, description="Minimum impact score for alerts (0-100)")
+    alert_channels: List[str] = Field(default=["terminal"], description="Alert channels")
+
+
+class NewsListResponse(BaseModel):
+    items: List[NewsItem]
+    total: int
+    limit: int
+    offset: int
+
+
+class SubscriptionResponse(BaseModel):
+    status: str
+    user_id: str
+    created_at: Optional[float] = None
 
 
 class SystemStats(BaseModel):

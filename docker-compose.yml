@@ -1,13 +1,22 @@
 version: '3.8'
 
 services:
+  redis:
+    image: redis:alpine
+    container_name: nitter-redis
+    restart: always
+    ports:
+      - "6379:6379"
+
   nitter-1:
-    image: zedeus/nitter:latest
+    image: unixfox/nitter:latest
     container_name: nitter-1
     ports:
       - "8081:8080"
     environment:
       - NITTER_ACCOUNT_POOL=pool1
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     restart: always
     # Resource limits for cost-efficiency
     deploy:
@@ -17,12 +26,14 @@ services:
           memory: 512M
 
   nitter-2:
-    image: zedeus/nitter:latest
+    image: unixfox/nitter:latest
     container_name: nitter-2
     ports:
       - "8082:8080"
     environment:
       - NITTER_ACCOUNT_POOL=pool2
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     restart: always
     deploy:
       resources:
@@ -31,12 +42,14 @@ services:
           memory: 512M
 
   nitter-3:
-    image: zedeus/nitter:latest
+    image: unixfox/nitter:latest
     container_name: nitter-3
     ports:
       - "8083:8080"
     environment:
       - NITTER_ACCOUNT_POOL=pool3
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     restart: always
     deploy:
       resources:
