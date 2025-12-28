@@ -111,9 +111,35 @@ High-signal news API for prediction market traders. Ultra-lightweight, cost-effi
 - [Deployment Guide](docs/DEPLOYMENT.md) - Setup and deployment instructions
 - [Troubleshooting](docs/TROUBLESHOOTING.md) - Common issues and solutions
 
+## Repository
+
+https://github.com/AmolDerickSoans/polyfloat-news
+
 ## Status
 
 🚧 **In Development** - MVP Phase 1
+
+### Quick Start
+
+```bash
+# Clone repository
+git clone https://github.com/AmolDerickSoans/polyfloat-news.git
+cd polyfloat-news
+
+# Install dependencies
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+# Start Nitter containers
+docker-compose up -d
+
+# Initialize database
+python scripts/init_db.py
+
+# Start API
+python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
 
 ## License
 
